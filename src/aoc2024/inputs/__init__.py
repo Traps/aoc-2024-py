@@ -5,13 +5,22 @@ from typing import Final
 SAMPLE_DIR:Final[pathlib.Path] = pathlib.Path(__file__).parent / 'samples'
 CHALLENGE_DIR:Final[pathlib.Path] = pathlib.Path(__file__).parent / 'challenges'
 
+def matches_sample(file:pathlib.Path, day:str, part:str) -> bool:
+    sample_day = file.stem.split('_')[0]
+
+    if sample_day in (day, day+part):
+        return True
+    
+    return False
+
+
 def get_sample_inputs(day:str|int, part:str) -> tuple[str]:
     if isinstance(day, int):
         day = f'day{day:02d}'
 
     sample_files = SAMPLE_DIR.glob(f'{day}*.txt')
     
-    sample_files = [f for f in sample_files if f.stem.endswith(day) or f.stem.endswith(part)]
+    sample_files = [file for file in sample_files if matches_sample(file, day, part)]
 
     sample_files = sorted(sample_files, key=lambda f: f.stem)
 
