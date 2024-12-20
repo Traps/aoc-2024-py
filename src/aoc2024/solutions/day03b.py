@@ -1,11 +1,11 @@
 from typing import Final, Generator
 
-from ..solutions.day03a import (get_products,
-                                MUL_STATEMENT_HEAD,
-                                MUL_STATEMENT_TAIL)
+from .day03a import get_products
+
 
 ENABLE_STATEMENT:Final[str] = 'do()'
 DISABLE_STATEMENT:Final[str] = 'don\'t()'
+
 
 def get_enabled_products(memory:str) -> Generator[int, None, None]:
     segments = memory.split(ENABLE_STATEMENT)

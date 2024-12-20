@@ -2,7 +2,7 @@
 from collections.abc import Sequence
 
 from ..util.parsing import to_rows
-from ..solutions.day02a import report_is_safe
+from .day02a import report_is_safe
 
 
 def report_is_safe_enough(report:Sequence[int]) -> bool:
