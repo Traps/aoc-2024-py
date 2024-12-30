@@ -1,7 +1,21 @@
 import argparse
+import time
 import importlib
 
+
+from typing import Any, Callable
+
 from . import inputs
+
+
+def simple_timit(callable:Callable, *args:Any, **kwargs:Any) -> tuple[float, Any]:
+    t_start = time.perf_counter()
+
+    result = callable(*args, **kwargs)
+
+    t_end = time.perf_counter()
+
+    return (t_end - t_start, result) 
 
 
 def main() -> None:
@@ -14,7 +28,7 @@ def main() -> None:
     
     args = parser.parse_args()
 
-    challenge_input = inputs.get_challenge_input(args.day)
+    challenge_input = None
     
     for part in args.part:
         print(f'Part {part.upper()}:')
@@ -28,10 +42,17 @@ def main() -> None:
             sample_inputs = inputs.get_sample_inputs(args.day, part)
     
             for i,sample in enumerate(sample_inputs, 1):
-                print(f'  Sample {i} answer: {task_module.solve(sample)}')
+                run_time, result = simple_timit(task_module.solve, sample)
+
+                print(f'  Sample {i} answer: {result} (run time: {run_time:.3f}s)')
 
         if args.challenge or not args.sample:
-            print(f'  Challenge answer: {task_module.solve(challenge_input)}') 
+            if challenge_input is None:
+                challenge_input = inputs.get_challenge_input(args.day)
+
+            run_time, result = simple_timit(task_module.solve, challenge_input)
+
+            print(f'  Challenge answer: {task_module.solve(challenge_input)}  (run time: {run_time:.3f}s)') 
 
 
 if __name__ == '__main__':
