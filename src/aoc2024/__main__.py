@@ -52,7 +52,7 @@ def main() -> None:
 
             run_time, result = simple_timit(task_module.solve, challenge_input)
 
-            print(f'  Challenge answer: {result}  (run time: {run_time:.3f}s)') 
+            print(f'  Challenge answer: {result} (run time: {run_time:.3f}s)') 
 
 
 if __name__ == '__main__':
