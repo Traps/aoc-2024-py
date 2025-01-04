@@ -1,20 +1,12 @@
-import re
 import numpy
+import re
 
-from typing import NamedTuple, Generator, TypeAlias
+from typing import Generator
 
-class Vec2D(NamedTuple):
-    x:int
-    y:int
-    
-    def __add__(self, other:'Vec2D') -> 'Vec2D':
-        return Vec2D(self.x + other.x, self.y + other.y)
+WORLD_SIZE_SAMPLE:tuple[int, int] = (11, 7) 
+WORLD_SIZE_CHALLENGE:tuple[int, int] = (101, 103)
 
-    def __sub__(self, other:'Vec2D') -> 'Vec2D':
-        return Vec2D(self.x - other.x, self.y - other.y)
-    
-    def __mul__(self, factor:int):
-        return Vec2D(self.x * factor, self.y * factor)
+ROBOT_COUNT_CHALLENGE:int = 500
 
 
 def parse_robots(robots:str) -> Generator[tuple[int, ...], None, None]:
@@ -22,26 +14,32 @@ def parse_robots(robots:str) -> Generator[tuple[int, ...], None, None]:
         yield tuple(map(int, re.findall(r'\-?\d+', robot)))
 
 
-def simulate_robot(pos:Vec2D, vel:Vec2D, sim_sec:int, world_size:Vec2D) -> Vec2D:
-    new_pos = pos + vel * sim_sec
+def calculate_safety_factor(robot_pos:numpy.ndarray, world_size:tuple[int, int]
+                          ) -> Generator[int, None, None]:
     
-    return Vec2D(new_pos.x % world_size.x, new_pos.y % world_size.y)
-    
-    
+    mid_x, mid_y = numpy.array(world_size) // 2
+    pos_x, pos_y = numpy.split(robot_pos, 2, axis=-1)
+
+    safety_factor = numpy.prod([
+        ((pos_x < mid_x) & (pos_y < mid_y)).sum(),
+        ((pos_x > mid_x) & (pos_y < mid_y)).sum(),
+        ((pos_x > mid_x) & (pos_y > mid_y)).sum(),
+        ((pos_x < mid_x) & (pos_y > mid_y)).sum()
+    ])
+
+    return int(safety_factor)
+
 
 def solve(_input:str) -> int:
-    world_size = [11, 7]
+    robots = numpy.array(list(parse_robots(_input)), dtype=int)
     
-    robots = numpy.asarray(list(parse_robots(_input)), dtype=int)
+    if len(robots) == ROBOT_COUNT_CHALLENGE:
+        world_size = WORLD_SIZE_CHALLENGE
+    else:
+        world_size = WORLD_SIZE_SAMPLE
+     
+    start_pos, vel = numpy.split(robots, 2, axis=-1)
     
-    pos, vel = numpy.split(robots, 2, axis=-1)
+    end_pos = numpy.mod(start_pos + vel * 100, [world_size] * len(robots))
     
-
-    new_pos = numpy.mod(pos + vel * 100, [world_size] * len(robots))
-    
-    return new_pos
-    
-    for robot in parse_robots(_input):
-        new_pos = simulate_robot(*robot, 100, world_size)
-        
-        print(new_pos)
+    return calculate_safety_factor(end_pos, world_size)
