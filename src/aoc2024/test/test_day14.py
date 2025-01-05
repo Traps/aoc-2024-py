@@ -1,4 +1,5 @@
 import importlib
+import pytest
 
 from ..inputs import get_sample_inputs, get_challenge_input
 
@@ -18,10 +19,14 @@ def test_part1_challenge() -> None:
     assert part1_module.solve(challenge) == 225521010
 
 
-# # Part 2 #
-# part2_module = importlib.import_module(f'.solutions.{DAY_NAME}b', 'aoc2024')
+# Part 2 #
+part2_module = importlib.import_module(f'.solutions.{DAY_NAME}b', 'aoc2024')
 
-# def test_part2_challenge() -> None:
-#     challenge = get_challenge_input(DAY_NAME)
+def test_part2_samples() -> None:
+    with pytest.raises(KeyError, match=fr"'No sample.+{DAY_NAME}'"):
+        _ = get_sample_inputs(DAY_NAME, 'b')
 
-#     assert part2_module.solve(challenge) == None
+def test_part2_challenge() -> None:
+    challenge = get_challenge_input(DAY_NAME)
+
+    assert part2_module.solve(challenge) == 7773

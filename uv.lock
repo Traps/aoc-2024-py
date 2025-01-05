@@ -3,9 +3,10 @@ requires-python = ">=3.11"
 
 [[package]]
 name = "aoc2024"
-version = "0.14.1"
+version = "0.14.2"
 source = { editable = "." }
 dependencies = [
+    { name = "numpy" },
     { name = "pytest" },
     { name = "shapely" },
     { name = "sympy" },
@@ -13,6 +14,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "numpy", specifier = ">=2.2.1" },
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "shapely", specifier = ">=2.0.6" },
     { name = "sympy", specifier = ">=1.13.3" },
