@@ -39,8 +39,12 @@ def main() -> None:
             continue
 
         if args.sample or not args.challenge:
-            sample_inputs = inputs.get_sample_inputs(args.day, part)
-    
+            try:
+                sample_inputs = inputs.get_sample_inputs(args.day, part)
+            except KeyError:
+                print(f'  No sample inputs found.')
+                sample_inputs = ()
+
             for i,sample in enumerate(sample_inputs, 1):
                 run_time, result = simple_timit(task_module.solve, sample)
 
