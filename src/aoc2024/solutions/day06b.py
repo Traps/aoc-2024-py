@@ -11,10 +11,10 @@ class InfiniteLoopException(Exception):
 
 
 class Direction(IntEnum):
-    north:int = 0
-    east:int = 1
-    south:int = 2
-    west:int = 3
+    NORTH:int = 0
+    EAST:int = 1
+    SOUTH:int = 2
+    WEST:int = 3
     
     def __add__(self, other_value:int):
         return self.__class__((self.value + other_value) % 4)
@@ -23,13 +23,13 @@ class Direction(IntEnum):
     def from_move(pos0:Position, pos1:Position) -> 'Direction':
         match (pos1[0] - pos0[0], pos1[1] - pos0[1]):
             case 0,-1:
-                return Direction.north
+                return Direction.NORTH
             case 0,1:
-                return Direction.south
+                return Direction.SOUTH
             case 1,0:
-                return Direction.east
+                return Direction.EAST
             case -1,0:
-                return Direction.west
+                return Direction.WEST
             
         return None
 
@@ -85,7 +85,7 @@ class CarelessLabGuard(object):
         
         path = [(self.pos_x, row) for row in visit_rows]
 
-        return self._commit_path(path, Direction.north)
+        return self._commit_path(path, Direction.NORTH)
             
     def _walk_south(self) -> bool:
         col = self.lab.col_obstructions[self.pos_x]
@@ -96,7 +96,7 @@ class CarelessLabGuard(object):
         
         path = [(self.pos_x, row) for row in visit_rows]
 
-        return self._commit_path(path, Direction.south)
+        return self._commit_path(path, Direction.SOUTH)
 
     def _walk_east(self) -> bool:
         row = self.lab.row_obstructions[self.pos_y]
@@ -107,7 +107,7 @@ class CarelessLabGuard(object):
         
         path = [(col, self.pos_y) for col in visit_cols]
         
-        return self._commit_path(path, Direction.east)
+        return self._commit_path(path, Direction.EAST)
     
     def _walk_west(self) -> bool:
         row = reversed(self.lab.row_obstructions[self.pos_y])
@@ -118,7 +118,7 @@ class CarelessLabGuard(object):
         
         path = [(col, self.pos_y) for col in visit_cols]
 
-        return self._commit_path(path, Direction.west)
+        return self._commit_path(path, Direction.WEST)
     
     def wait_for_guard_to_leave(self) -> None:
         guard_moves = itertools.cycle([
