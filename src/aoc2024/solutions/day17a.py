@@ -1,6 +1,9 @@
 from dataclasses import dataclass, field
 
-from typing import Callable, Iterable
+from typing import Callable, Iterable, TypeAlias
+
+
+Instruction:TypeAlias = Callable[[int], None]
 
 
 @dataclass(slots=True)
@@ -9,21 +12,21 @@ class ChronospatialComputer(object):
     b:int
     c:int
     
-    _instruction_set:tuple[Callable[[int], None]] = field(init=False)
-    
     i_ptr:int = field(init=False, default=0)
-
+    
     output:list[int] = field(init=False, default_factory=list)
 
+    __instruction_set:tuple[Instruction, ...] = field(init=False)
+
     def __post_init__(self) -> None:
-        self._instruction_set = (
+        self.__instruction_set = (
             self.inst0_adv, self.inst1_bxl, self.inst2_bst,
             self.inst3_jnz, self.inst4_bxc, self.inst5_out,
             self.inst6_bdv, self.inst7_cdv
         )
     
-    def combo_val(self, op:int) -> int:
-        match op:
+    def combo_val(self, operand:int) -> int:
+        match operand:
             case 4:
                 return self.a
             case 5:
@@ -31,7 +34,7 @@ class ChronospatialComputer(object):
             case 6:
                 return self.c
         
-        return op
+        return operand
     
     def inst0_adv(self, operand:int) -> None:
         self.a //= (1 << self.combo_val(operand))
@@ -59,9 +62,9 @@ class ChronospatialComputer(object):
         self.c = self.a // (1 << self.combo_val(operand))
         
     def run_instruction(self, opcode:int, operand:int) -> None:
-        self._instruction_set[opcode](operand)
+        self.__instruction_set[opcode](operand)
         self.i_ptr += 2
-            
+    
     def run_program(self, program:Iterable[int]) -> list[int]:
         program = tuple(program)
         
