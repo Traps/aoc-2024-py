@@ -49,15 +49,10 @@ class Warehouse(object):
         if base_pos in self.boxes and direction is not Direction.WEST:
             yield from self.resolve_moved_boxes(base_pos + (1, 0), direction)
 
-        match direction:
-            case Direction.EAST:
-                shoved = (base_pos + (1, 0),)
-            case Direction.SOUTH:
-                shoved = (base_pos + (0, 1), base_pos + (-1, 1))
-            case Direction.WEST:
-                shoved = (base_pos + (-1, 0), base_pos + (-2, 0))
-            case Direction.NORTH:
-                shoved = (base_pos + (0, -1), base_pos + (-1, -1))
+        shoved = [base_pos + direction.as_step()]
+        
+        if direction is not Direction.EAST:
+            shoved.append(shoved[0] + Direction.WEST.as_step())
 
         shoved_main = shoved[0]
 
