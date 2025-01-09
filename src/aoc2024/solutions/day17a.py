@@ -37,7 +37,7 @@ class ChronospatialComputer(object):
         return operand
     
     def inst0_adv(self, operand:int) -> None:
-        self.a //= (1 << self.combo_val(operand))
+        self.a >>= self.combo_val(operand)
     
     def inst1_bxl(self, operand:int) -> None:
         self.b ^= operand
@@ -56,14 +56,13 @@ class ChronospatialComputer(object):
         self.output.append(self.combo_val(operand) & 0b111)
     
     def inst6_bdv(self, operand:int) -> None:
-        self.b = self.a // (1 << self.combo_val(operand))
+        self.b = self.a >> self.combo_val(operand)
     
     def inst7_cdv(self, operand:int) -> None:
-        self.c = self.a // (1 << self.combo_val(operand))
+        self.c = self.a >> self.combo_val(operand)
         
     def run_instruction(self, opcode:int, operand:int) -> None:
         self.__instruction_set[opcode](operand)
-        self.i_ptr += 2
     
     def run_program(self, program:Iterable[int]) -> list[int]:
         program = tuple(program)
@@ -72,6 +71,7 @@ class ChronospatialComputer(object):
         
         while 0 <= self.i_ptr < program_length:
             self.run_instruction(program[self.i_ptr], program[self.i_ptr+1])
+            self.i_ptr += 2
             
         return self.output
         
