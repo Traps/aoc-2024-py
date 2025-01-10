@@ -75,7 +75,7 @@ def find_self_replicating_values(program:Iterable[int]
     yield from reversed_program(program)
 
 
-def solve(_intput:str) -> str:
+def solve(_intput:str) -> int:
     _, program = parse_setup(_intput)
 
     return min(find_self_replicating_values(program))
