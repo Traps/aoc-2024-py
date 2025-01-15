@@ -1,6 +1,6 @@
 [project]
 name = "aoc2024"
-version = "0.21.2"
+version = "0.22.1"
 description = "Advent of Code 2024 in Python"
 readme = "README.md"
 authors = [
@@ -12,11 +12,22 @@ dependencies = [
     "pytest>=8.3.4",
     "shapely>=2.0.6",
     "sympy>=1.13.3",
+    "cython>=3.0.11"
 ]
 
 [project.scripts]
 aoc2024 = "aoc2024:main"
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=75", "cython>=3.0.11"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+ext-modules = [
+  {name = "aoc2024.solutions.day22util", sources = ["src/**/day22util.pyx"]}
+]
+
+[tool.uv]
+cache-keys = [
+  { file = "**/*.pyx" }
+]
