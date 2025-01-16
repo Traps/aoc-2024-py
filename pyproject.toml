@@ -24,7 +24,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 ext-modules = [
-  {name = "aoc2024.solutions.day22util", sources = ["src/**/day22util.pyx"]}
+  {name = "aoc2024.solutions.day22util", sources = ["src/aoc2024/solutions/day22util.pyx"]}
 ]
 
 [tool.uv]
