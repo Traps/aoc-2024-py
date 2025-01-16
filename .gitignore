@@ -11,3 +11,10 @@ wheels/
 
 # Pytest cache
 .pytest_cache/
+
+# Cython
+*.c
+*.so
+
+# OSX
+.DS_Store
