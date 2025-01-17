@@ -19,15 +19,15 @@ def test_part1_challenge() -> None:
     assert part1_module.solve(challenge) == 17960270302
 
 
-# # Part 2 #
-# part2_module = importlib.import_module(f'.solutions.{DAY_NAME}b', 'aoc2024')
+# Part 2 #
+part2_module = importlib.import_module(f'.solutions.{DAY_NAME}b', 'aoc2024')
 
-# def test_part2_samples() -> None:
-#     samples = get_sample_inputs(DAY_NAME, 'b')
+def test_part2_samples() -> None:
+    samples = get_sample_inputs(DAY_NAME, 'b')
 
-#     assert part2_module.solve(samples[0]) == None
+    assert part2_module.solve(samples[0]) == 23
 
-# def test_part2_challenge() -> None:
-#     challenge = get_challenge_input(DAY_NAME)
+def test_part2_challenge() -> None:
+    challenge = get_challenge_input(DAY_NAME)
 
-#     assert part2_module.solve(challenge) == None
+    assert part2_module.solve(challenge) == 2042
