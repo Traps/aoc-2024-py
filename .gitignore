@@ -15,6 +15,7 @@ wheels/
 # Cython
 *.c
 *.so
+*.html
 
 # OSX
 .DS_Store
