@@ -33,7 +33,7 @@ def parse_system(system:str) -> tuple[Callable[[str], int], set[str]]:
 
         return op(get_gate(in0), get_gate(in1))
     
-    return get_gate, set(gate_functions.keys())
+    return get_gate, set(gate_functions.keys()) | set(wires.keys())
 
 
 def solve(_input:str) -> int:
