@@ -21,7 +21,7 @@ def simple_timit(callable:Callable, *args:Any, **kwargs:Any) -> tuple[float, Any
 def main() -> None:
     parser = argparse.ArgumentParser('aoc2024')
 
-    parser.add_argument('day', type=int, choices=range(1,25))
+    parser.add_argument('day', type=int, choices=range(1,26))
     parser.add_argument('part', type=str, choices=('a', 'b'), default=('a', 'b'), nargs='?')
     parser.add_argument('-s', '--sample', action='store_true')
     parser.add_argument('-c', '--challenge', action='store_true')
