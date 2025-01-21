@@ -1,6 +1,6 @@
 [project]
 name = "aoc2024"
-version = "0.25.1"
+version = "1.0.0"
 description = "Advent of Code 2024 in Python"
 readme = "README.md"
 authors = [
