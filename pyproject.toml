@@ -1,6 +1,6 @@
 [project]
 name = "aoc2024"
-version = "1.0.0"
+version = "1.0.1"
 description = "Advent of Code 2024 in Python"
 readme = "README.md"
 authors = [
@@ -24,6 +24,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 ext-modules = [
+  {name = "aoc2024.solutions.day20util", sources = ["src/aoc2024/solutions/day20util.pyx"]},
   {name = "aoc2024.solutions.day22util", sources = ["src/aoc2024/solutions/day22util.pyx"]}
 ]
 
