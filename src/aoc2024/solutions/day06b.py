@@ -16,7 +16,7 @@ class Direction(IntEnum):
     SOUTH:int = 2
     WEST:int = 3
     
-    def __add__(self, other_value:int):
+    def __add__(self, other_value:int) -> 'Direction':
         return self.__class__((self.value + other_value) % 4)
     
     @staticmethod
@@ -58,7 +58,7 @@ class CarelessLabGuard(object):
         
         self.extra_obstruction = block_pos
 
-    def _commit_path(self, path:list[Position], direction:Direction) -> None:
+    def _commit_path(self, path:list[Position], direction:Direction) -> bool:
         if self.extra_obstruction in path:
             path = path[:path.index(self.extra_obstruction)]
         

@@ -56,7 +56,7 @@ class LabGuard(object):
         
         self.path = list()
             
-    def _commit_path(self, path:list[Position]) -> None:
+    def _commit_path(self, path:list[Position]) -> bool:
         if len(path) == 0:
             return True
         
